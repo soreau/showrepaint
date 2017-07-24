@@ -55,7 +55,6 @@ showrepaintPaintOutput (CompScreen              *s,
 	BoxPtr pBox;
 	int    nBox;
 	unsigned short color[4];
-    CompTransform zTransform;
 
 	SHOWREPAINT_SCREEN (s);
 
@@ -63,11 +62,13 @@ showrepaintPaintOutput (CompScreen              *s,
 	status = (*s->paintOutput) (s, sAttrib, transform, region, output, mask);
 	WRAP (ss, s, paintOutput, showrepaintPaintOutput);
 
-	zTransform = *transform;
-	transformToScreenSpace (s, output, -DEFAULT_Z_CAMERA, &zTransform);
+	glViewport (0, 0, s->width, s->height);
 
 	glPushMatrix ();
-	glLoadMatrixf (zTransform.m);
+
+	glTranslatef (-0.5f, -0.5f, -DEFAULT_Z_CAMERA);
+	glScalef (1.0f  / s->width, -1.0f / s->height, 1.0f);
+	glTranslatef (0, -s->height, 0.0f);
 
 	glEnable (GL_BLEND); 
 
