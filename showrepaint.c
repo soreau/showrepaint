@@ -82,14 +82,16 @@ showrepaintPaintOutput (CompScreen              *s,
 	pBox = region->rects;
 	nBox = region->numRects;
 
-	glBegin (GL_QUADS);
+	glBegin (GL_TRIANGLES);
 
 	while (nBox--)
 	{
 		glVertex2i (pBox->x1, pBox->y1);
 		glVertex2i (pBox->x1, pBox->y2);
 		glVertex2i (pBox->x2, pBox->y2);
+		glVertex2i (pBox->x2, pBox->y2);
 		glVertex2i (pBox->x2, pBox->y1);
+		glVertex2i (pBox->x1, pBox->y1);
 		
 		pBox++;
 	}
